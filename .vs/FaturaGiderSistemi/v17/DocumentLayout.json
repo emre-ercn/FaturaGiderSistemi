@@ -3,12 +3,31 @@
   "WorkspaceRootPath": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\migrations\\20260714083141_ilkkurulum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|solutionrelative:faturagidersistemi\\migrations\\20260714083141_ilkkurulum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|solutionrelative:faturagidersistemi\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\controllers\\faturacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|solutionrelative:faturagidersistemi\\controllers\\faturacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\controllers\\kullanicicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|solutionrelative:faturagidersistemi\\controllers\\kullanicicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\controllers\\sirketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|solutionrelative:faturagidersistemi\\controllers\\sirketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|solutionrelative:faturagidersistemi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/FaturaGiderDB/True/SqlTable/dbo.Kullanicilar.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\migrations\\20260714083141_ilkkurulum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|solutionrelative:faturagidersistemi\\migrations\\20260714083141_ilkkurulum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27D9E997-EB3E-412B-8CDC-962EC40E9C94}|FaturaGiderSistemi\\FaturaGiderSistemi.csproj|c:\\users\\emre ercan\\desktop\\faturagidersistemi\\faturagidersistemi\\faturagidersistemi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -42,11 +61,72 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FaturaController.cs",
+              "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Controllers\\FaturaController.cs",
+              "RelativeDocumentMoniker": "FaturaGiderSistemi\\Controllers\\FaturaController.cs",
+              "ToolTip": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Controllers\\FaturaController.cs",
+              "RelativeToolTip": "FaturaGiderSistemi\\Controllers\\FaturaController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T12:12:33.78Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "KullaniciController.cs",
+              "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Controllers\\KullaniciController.cs",
+              "RelativeDocumentMoniker": "FaturaGiderSistemi\\Controllers\\KullaniciController.cs",
+              "ToolTip": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Controllers\\KullaniciController.cs",
+              "RelativeToolTip": "FaturaGiderSistemi\\Controllers\\KullaniciController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T11:55:07.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "FaturaGiderSistemi\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "FaturaGiderSistemi\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABAAAAAAAAAAAAAmwB4AAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-14T11:43:54.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SirketController.cs",
+              "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Controllers\\SirketController.cs",
+              "RelativeDocumentMoniker": "FaturaGiderSistemi\\Controllers\\SirketController.cs",
+              "ToolTip": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Controllers\\SirketController.cs",
+              "RelativeToolTip": "FaturaGiderSistemi\\Controllers\\SirketController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T11:36:14.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "dbo.Kullanicilar.sql",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/FaturaGiderDB/True/SqlTable/dbo.Kullanicilar.sql",
+              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/FaturaGiderDB/True/SqlTable/dbo.Kullanicilar.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-07-14T08:34:56.654Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "20260714083141_IlkKurulum.cs",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Migrations\\20260714083141_IlkKurulum.cs",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\Migrations\\20260714083141_IlkKurulum.cs",
@@ -54,25 +134,24 @@
               "RelativeToolTip": "FaturaGiderSistemi\\Migrations\\20260714083141_IlkKurulum.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T08:31:41.551Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T08:31:41.551Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Program.cs",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\Program.cs",
               "ToolTip": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Program.cs",
               "RelativeToolTip": "FaturaGiderSistemi\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-14T08:28:37.676Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\appsettings.json",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\appsettings.json",
@@ -80,12 +159,11 @@
               "RelativeToolTip": "FaturaGiderSistemi\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-07-14T08:28:17.248Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T08:28:17.248Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\Data\\ApplicationDbContext.cs",
@@ -93,25 +171,23 @@
               "RelativeToolTip": "FaturaGiderSistemi\\Data\\ApplicationDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T08:26:21.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T08:26:21.797Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FaturaGiderSistemi",
+              "DocumentIndex": 9,
+              "Title": "FaturaGiderSistemi.csproj",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi.csproj",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\FaturaGiderSistemi.csproj",
               "ToolTip": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi.csproj",
               "RelativeToolTip": "FaturaGiderSistemi\\FaturaGiderSistemi.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-07-14T08:01:37.988Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T08:01:37.988Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "Fatura.cs",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Models\\Fatura.cs",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\Models\\Fatura.cs",
@@ -119,12 +195,11 @@
               "RelativeToolTip": "FaturaGiderSistemi\\Models\\Fatura.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T08:05:29.27Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T08:05:29.27Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "Sirket.cs",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Models\\Sirket.cs",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\Models\\Sirket.cs",
@@ -132,12 +207,11 @@
               "RelativeToolTip": "FaturaGiderSistemi\\Models\\Sirket.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T08:05:13.987Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T08:05:13.987Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "Kullanici.cs",
               "DocumentMoniker": "C:\\Users\\EMRE ERCAN\\Desktop\\FaturaGiderSistemi\\FaturaGiderSistemi\\FaturaGiderSistemi\\Models\\Kullanici.cs",
               "RelativeDocumentMoniker": "FaturaGiderSistemi\\Models\\Kullanici.cs",
@@ -145,8 +219,7 @@
               "RelativeToolTip": "FaturaGiderSistemi\\Models\\Kullanici.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T08:04:57.535Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T08:04:57.535Z"
             }
           ]
         }

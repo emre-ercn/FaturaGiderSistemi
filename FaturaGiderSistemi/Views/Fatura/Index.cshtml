@@ -1,0 +1,71 @@
+﻿@model IEnumerable<FaturaGiderSistemi.Models.Fatura>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FisNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToplamTutar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KdvOrani)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Durum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sirket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kullanici)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FisNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToplamTutar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KdvOrani)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Durum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sirket.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kullanici.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
