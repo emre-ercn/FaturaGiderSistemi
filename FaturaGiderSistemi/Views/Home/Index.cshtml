@@ -1,8 +1,55 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary fw-bold">Yönetim Paneli</h2>
+    <hr />
+
+    <div class="row mt-4">
+        <!-- Toplam Şirket Kartı -->
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-secondary shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-uppercase">Kayıtlı Şirket</h6>
+                    <h2 class="fw-bold mt-3">@ViewBag.ToplamSirket</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toplam Fatura Kartı -->
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-info shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-uppercase">Toplam Fatura</h6>
+                    <h2 class="fw-bold mt-3">@ViewBag.ToplamFatura</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ödenen (Tahsil Edilen) Tutar Kartı -->
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-uppercase">Tahsil Edilen</h6>
+                    <h2 class="fw-bold mt-3">@ViewBag.OdenenTutar.ToString("N2") ₺</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bekleyen Tutar Kartı -->
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-danger shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h6 class="card-title text-uppercase">Bekleyen Tahsilat</h6>
+                    <h2 class="fw-bold mt-3">@ViewBag.BekleyenTutar.ToString("N2") ₺</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-light border shadow-sm mt-3" role="alert">
+        <h5 class="alert-heading text-primary">Sisteme Hoş Geldiniz!</h5>
+        <p class="mb-0">Yukarıdaki özet kartlarından güncel finansal durumunuzu takip edebilirsiniz. Üst menüyü kullanarak yeni şirket ekleyebilir veya fatura kesebilirsiniz.</p>
+    </div>
 </div>

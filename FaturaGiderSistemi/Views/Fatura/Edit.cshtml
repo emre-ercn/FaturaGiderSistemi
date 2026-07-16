@@ -1,64 +1,61 @@
 ﻿@model FaturaGiderSistemi.Models.Fatura
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Fatura Düzenle";
 }
 
-<h1>Edit</h1>
-
-<h4>Fatura</h4>
+<h2 class="mt-4">Fatura Düzenle</h2>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- İŞTE HATALARI EKRANA BASTIRACAK OLAN SİHİRLİ KOD BURADA -->
+            <div asp-validation-summary="All" class="text-danger fw-bold fs-5 mb-3"></div>
+
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FisNo" class="control-label"></label>
+
+            <div class="form-group mb-3">
+                <label class="fw-bold">Fatura No</label>
+                <input asp-for="FaturaNo" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="fw-bold">Fiş No</label>
                 <input asp-for="FisNo" class="form-control" />
-                <span asp-validation-for="FisNo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Tarih" class="control-label"></label>
-                <input asp-for="Tarih" class="form-control" />
-                <span asp-validation-for="Tarih" class="text-danger"></span>
+            <div class="form-group mb-3">
+                <label class="fw-bold">Tutar</label>
+                <input asp-for="Tutar" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="ToplamTutar" class="control-label"></label>
-                <input asp-for="ToplamTutar" class="form-control" />
-                <span asp-validation-for="ToplamTutar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KdvOrani" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label class="fw-bold">KDV Oranı (%)</label>
                 <input asp-for="KdvOrani" class="form-control" />
-                <span asp-validation-for="KdvOrani" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Durum" class="control-label"></label>
-                <input asp-for="Durum" class="form-control" />
-                <span asp-validation-for="Durum" class="text-danger"></span>
+            <div class="form-group mb-3">
+                <label class="fw-bold">Toplam Tutar</label>
+                <input asp-for="ToplamTutar" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="SirketId" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label class="fw-bold">Tarih</label>
+                <input asp-for="Tarih" class="form-control" />
+            </div>
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label fw-bold">
+                    <input class="form-check-input" asp-for="Durum" /> Ödendi mi?
+                </label>
+            </div>
+            <div class="form-group mb-3">
+                <label class="fw-bold">Şirket</label>
                 <select asp-for="SirketId" class="form-control" asp-items="ViewBag.SirketId"></select>
-                <span asp-validation-for="SirketId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="KullaniciId" class="control-label"></label>
+            <div class="form-group mb-4">
+                <label class="fw-bold">Kullanıcı</label>
                 <select asp-for="KullaniciId" class="form-control" asp-items="ViewBag.KullaniciId"></select>
-                <span asp-validation-for="KullaniciId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Kaydet" class="btn btn-primary px-4" />
+                <a asp-action="Index" class="btn btn-secondary px-4">Listeye Dön</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

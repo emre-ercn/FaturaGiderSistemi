@@ -1,32 +1,32 @@
-using System.Diagnostics;
-using FaturaGiderSistemi.Models;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using FaturaGiderSistemi.Data;
 
 namespace FaturaGiderSistemi.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        // Veritabaný baðlantýsýný buraya da çekiyoruz ki hesaplama yapabilelim
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            // Veritabanýndaki kayýtlarý sayýp, özetleri ViewBag ile arayüze gönderiyoruz
+            ViewBag.ToplamSirket = _context.Sirketler.Count();
+            ViewBag.ToplamFatura = _context.Faturalar.Count();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            // Durumu true (Ödendi) olanlarýn toplam tutarý
+            ViewBag.OdenenTutar = _context.Faturalar.Where(f => f.Durum).Sum(f => f.ToplamTutar);
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            // Durumu false (Ödenmedi) olanlarýn toplam tutarý
+            ViewBag.BekleyenTutar = _context.Faturalar.Where(f => f.Durum == false).Sum(f => f.ToplamTutar);
+
+            return View();
         }
     }
 }

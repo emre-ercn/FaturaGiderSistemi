@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,87 +19,79 @@ namespace FaturaGiderSistemi.Controllers
         }
 
         // GET: Fatura
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string aramaKelimesi)
         {
-            var applicationDbContext = _context.Faturalar.Include(f => f.Kullanici).Include(f => f.Sirket);
-            return View(await applicationDbContext.ToListAsync());
+            ViewData["CurrentFilter"] = aramaKelimesi;
+            var faturalar = from f in _context.Faturalar.Include(f => f.Kullanici).Include(f => f.Sirket)
+                            select f;
+
+            if (!String.IsNullOrEmpty(aramaKelimesi))
+            {
+                faturalar = faturalar.Where(s => s.FaturaNo.Contains(aramaKelimesi));
+            }
+
+            return View(await faturalar.ToListAsync());
         }
 
         // GET: Fatura/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var fatura = await _context.Faturalar
                 .Include(f => f.Kullanici)
                 .Include(f => f.Sirket)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (fatura == null)
-            {
-                return NotFound();
-            }
-
+            if (fatura == null) return NotFound();
             return View(fatura);
         }
 
         // GET: Fatura/Create
         public IActionResult Create()
         {
-            ViewData["KullaniciId"] = new SelectList(_context.Kullanicilar, "Id", "Id");
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Id");
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad");
+            ViewBag.KullaniciId = new SelectList(_context.Kullanicilar, "Id", "Ad");
             return View();
         }
 
         // POST: Fatura/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FisNo,Tarih,ToplamTutar,KdvOrani,Durum,SirketId,KullaniciId")] Fatura fatura)
+        public async Task<IActionResult> Create([Bind("Id,FaturaNo,FisNo,Tutar,KdvOrani,ToplamTutar,Tarih,Durum,SirketId,KullaniciId")] Fatura fatura)
         {
+            ModelState.Remove("Sirket");
+            ModelState.Remove("Kullanici");
+
             if (ModelState.IsValid)
             {
                 _context.Add(fatura);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KullaniciId"] = new SelectList(_context.Kullanicilar, "Id", "Id", fatura.KullaniciId);
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Id", fatura.SirketId);
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
+            ViewBag.KullaniciId = new SelectList(_context.Kullanicilar, "Id", "Ad", fatura.KullaniciId);
             return View(fatura);
         }
 
         // GET: Fatura/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var fatura = await _context.Faturalar.FindAsync(id);
-            if (fatura == null)
-            {
-                return NotFound();
-            }
-            ViewData["KullaniciId"] = new SelectList(_context.Kullanicilar, "Id", "Id", fatura.KullaniciId);
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Id", fatura.SirketId);
+            if (fatura == null) return NotFound();
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
+            ViewBag.KullaniciId = new SelectList(_context.Kullanicilar, "Id", "Ad", fatura.KullaniciId);
             return View(fatura);
         }
 
         // POST: Fatura/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FisNo,Tarih,ToplamTutar,KdvOrani,Durum,SirketId,KullaniciId")] Fatura fatura)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FaturaNo,FisNo,Tutar,KdvOrani,ToplamTutar,Tarih,Durum,SirketId,KullaniciId")] Fatura fatura)
         {
-            if (id != fatura.Id)
-            {
-                return NotFound();
-            }
+            if (id != fatura.Id) return NotFound();
+
+            ModelState.Remove("Sirket");
+            ModelState.Remove("Kullanici");
 
             if (ModelState.IsValid)
             {
@@ -111,39 +102,25 @@ namespace FaturaGiderSistemi.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FaturaExists(fatura.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!FaturaExists(fatura.Id)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KullaniciId"] = new SelectList(_context.Kullanicilar, "Id", "Id", fatura.KullaniciId);
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Id", fatura.SirketId);
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
+            ViewBag.KullaniciId = new SelectList(_context.Kullanicilar, "Id", "Ad", fatura.KullaniciId);
             return View(fatura);
         }
 
         // GET: Fatura/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var fatura = await _context.Faturalar
                 .Include(f => f.Kullanici)
                 .Include(f => f.Sirket)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (fatura == null)
-            {
-                return NotFound();
-            }
-
+            if (fatura == null) return NotFound();
             return View(fatura);
         }
 
@@ -156,9 +133,8 @@ namespace FaturaGiderSistemi.Controllers
             if (fatura != null)
             {
                 _context.Faturalar.Remove(fatura);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
