@@ -2,84 +2,87 @@
 
 @{
     ViewData["Title"] = "Yeni Fatura Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 class="mt-4">Yeni Fatura Ekle</h1>
-<hr />
+<!-- Tasarımı garanti altına almak için Bootstrap'i zorla sayfaya dahil ediyoruz -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-<div class="row">
-    <div class="col-md-5">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container mt-4">
+    <h2 class="mb-4">Yeni Fatura Ekle</h2>
 
-            <div class="form-group mb-3">
-                <label asp-for="FaturaNo" class="control-label fw-bold"></label>
-                <input asp-for="FaturaNo" class="form-control" placeholder="Örn: FAT-2026-001" />
-                <span asp-validation-for="FaturaNo" class="text-danger"></span>
-            </div>
+    <!-- İŞTE BU KISIM BİZE GİZLİ HATALARI BAĞIRARAK SÖYLEYECEK -->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mb-4 shadow-sm">
+            <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill"></i> Kayıt Başarısız!</h5>
+            <hr>
+            @Html.ValidationSummary(false, "", new { @class = "mb-0" })
+        </div>
+    }
 
-            <div class="form-group mb-3">
-                <label asp-for="FisNo" class="control-label fw-bold"></label>
-                <input asp-for="FisNo" class="form-control" />
-                <span asp-validation-for="FisNo" class="text-danger"></span>
+    <div class="card shadow-sm p-4">
+        <!-- asp-action yerine standart HTML form gönderimi kullanıyoruz -->
+        <form action="/Fatura/Create" method="post">
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="control-label fw-bold">Fatura No</label>
+                    <input type="text" name="FaturaNo" class="form-control" placeholder="Örn: FAT-2026-001" required />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="control-label fw-bold">Fiş No</label>
+                    <input type="text" name="FisNo" class="form-control" />
+                </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4 form-group mb-3">
-                    <label asp-for="Tutar" class="control-label fw-bold"></label>
-                    <input asp-for="Tutar" class="form-control" type="number" step="0.01" />
-                    <span asp-validation-for="Tutar" class="text-danger"></span>
+                <div class="col-md-6 mb-3">
+                    <label class="control-label fw-bold">Tarih</label>
+                    <input type="date" name="Tarih" class="form-control" required />
                 </div>
-                <div class="col-md-4 form-group mb-3">
-                    <label asp-for="KdvOrani" class="control-label fw-bold"></label>
-                    <input asp-for="KdvOrani" class="form-control" type="number" placeholder="%18" />
-                    <span asp-validation-for="KdvOrani" class="text-danger"></span>
+                <div class="col-md-6 mb-3">
+                    <label class="control-label fw-bold">Şirket</label>
+
+                    <!-- Tag Helper yerine manuel C# döngüsü ile açılır menü oluşturuyoruz -->
+                    <select name="SirketId" class="form-select" required>
+                        <option value="">-- Şirket Seçiniz --</option>
+                        @if (ViewBag.SirketlerListesi != null)
+                        {
+                            foreach (var sirket in ViewBag.SirketlerListesi)
+                            {
+                                <option value="@sirket.Value">@sirket.Text</option>
+                            }
+                        }
+                    </select>
                 </div>
-                <div class="col-md-4 form-group mb-3">
-                    <label asp-for="ToplamTutar" class="control-label fw-bold"></label>
-                    <input asp-for="ToplamTutar" class="form-control" type="number" step="0.01" />
-                    <span asp-validation-for="ToplamTutar" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="control-label fw-bold">KDV Oranı (%)</label>
+                    <input type="number" name="KdvOrani" class="form-control" value="20" required />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="control-label fw-bold">Toplam Tutar (TL)</label>
+                    <input type="number" step="0.01" name="ToplamTutar" class="form-control" required />
                 </div>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Tarih" class="control-label fw-bold"></label>
-                <input asp-for="Tarih" class="form-control" type="date" />
-                <span asp-validation-for="Tarih" class="text-danger"></span>
-            </div>
-
-            <!-- İŞTE BİZİM AÇILIR MENÜLERİMİZ (DROPDOWN) -->
-            <div class="form-group mb-3">
-                <label asp-for="SirketId" class="control-label fw-bold"></label>
-                <select asp-for="SirketId" class="form-select" asp-items="ViewBag.SirketId">
-                    <option value="">-- Lütfen Şirket Seçiniz --</option>
-                </select>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="KullaniciId" class="control-label fw-bold"></label>
-                <select asp-for="KullaniciId" class="form-select" asp-items="ViewBag.KullaniciId">
-                    <option value="">-- Lütfen Kullanıcı Seçiniz --</option>
-                </select>
-            </div>
-
-            <div class="form-group form-check mb-4 mt-3">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Durum" />
-                    <strong>@Html.DisplayNameFor(model => model.Durum) (Ödendi mi?)</strong>
+            <div class="form-group form-check mb-4">
+                <label class="form-check-label fw-bold">
+                    <!-- Checkbox için standart HTML -->
+                    <input type="checkbox" class="form-check-input" name="Durum" value="true" /> Ödendi mi?
+                    <!-- Seçilmezse false gitmesi için gizli alan -->
+                    <input type="hidden" name="Durum" value="false" />
                 </label>
             </div>
 
-            <div class="form-group d-grid gap-2 d-md-block">
-                <input type="submit" value="Kaydet" class="btn btn-success px-4" />
-                <a asp-action="Index" class="btn btn-secondary px-4">Listeye Dön</a>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Kaydet</button>
+                <a href="/Fatura/Index" class="btn btn-secondary ms-2">Listeye Dön</a>
             </div>
+
         </form>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
