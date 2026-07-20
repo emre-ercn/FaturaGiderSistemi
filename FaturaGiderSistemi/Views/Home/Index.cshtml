@@ -3,53 +3,50 @@
 }
 
 <div class="container mt-4">
-    <h2 class="mb-4 text-primary fw-bold">Yönetim Paneli</h2>
-    <hr />
+    <h2 class="mb-4 fw-bold">Yönetim Paneli</h2>
 
-    <div class="row mt-4">
-        <!-- Toplam Şirket Kartı -->
+    <div class="row">
+      
         <div class="col-md-3 mb-4">
-            <div class="card text-white bg-secondary shadow-sm h-100">
-                <div class="card-body text-center">
-                    <h6 class="card-title text-uppercase">Kayıtlı Şirket</h6>
-                    <h2 class="fw-bold mt-3">@ViewBag.ToplamSirket</h2>
+            <div class="card text-white bg-primary shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Toplam Fatura</h5>
+                    <h2 class="display-5 fw-bold">@ViewBag.ToplamFaturaSayisi</h2>
+                    <p class="card-text">Sistemdeki kayıtlı evrak</p>
                 </div>
             </div>
         </div>
 
-        <!-- Toplam Fatura Kartı -->
+        
         <div class="col-md-3 mb-4">
-            <div class="card text-white bg-info shadow-sm h-100">
-                <div class="card-body text-center">
-                    <h6 class="card-title text-uppercase">Toplam Fatura</h6>
-                    <h2 class="fw-bold mt-3">@ViewBag.ToplamFatura</h2>
+            <div class="card text-white bg-info shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Kayıtlı Şirket</h5>
+                    <h2 class="display-5 fw-bold">@ViewBag.ToplamSirketSayisi</h2>
+                    <p class="card-text">Çalışılan kurum sayısı</p>
                 </div>
             </div>
         </div>
 
-        <!-- Ödenen (Tahsil Edilen) Tutar Kartı -->
         <div class="col-md-3 mb-4">
-            <div class="card text-white bg-success shadow-sm h-100">
-                <div class="card-body text-center">
-                    <h6 class="card-title text-uppercase">Tahsil Edilen</h6>
-                    <h2 class="fw-bold mt-3">@ViewBag.OdenenTutar.ToString("N2") ₺</h2>
+            <div class="card text-white bg-success shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Ödenen Toplam</h5>
+                    <h2 class="display-6 fw-bold">@ViewBag.ToplamOdenen.ToString("N2") ₺</h2>
+                    <p class="card-text">Tahsilatı tamamlanan</p>
                 </div>
             </div>
         </div>
 
-        <!-- Bekleyen Tutar Kartı -->
+        
         <div class="col-md-3 mb-4">
-            <div class="card text-white bg-danger shadow-sm h-100">
-                <div class="card-body text-center">
-                    <h6 class="card-title text-uppercase">Bekleyen Tahsilat</h6>
-                    <h2 class="fw-bold mt-3">@ViewBag.BekleyenTutar.ToString("N2") ₺</h2>
+            <div class="card text-white bg-danger shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Bekleyen Ödemeler</h5>
+                    <h2 class="display-6 fw-bold">@ViewBag.ToplamBekleyen.ToString("N2") ₺</h2>
+                    <p class="card-text">Tahsilat bekleyen</p>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="alert alert-light border shadow-sm mt-3" role="alert">
-        <h5 class="alert-heading text-primary">Sisteme Hoş Geldiniz!</h5>
-        <p class="mb-0">Yukarıdaki özet kartlarından güncel finansal durumunuzu takip edebilirsiniz. Üst menüyü kullanarak yeni şirket ekleyebilir veya fatura kesebilirsiniz.</p>
     </div>
 </div>

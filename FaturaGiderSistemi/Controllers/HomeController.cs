@@ -1,6 +1,6 @@
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using FaturaGiderSistemi.Data;
+using FaturaGiderSistemi.Data; // Kendi Data klasörünün yoluna göre gerekirse düzelt
+using System.Linq;
 
 namespace FaturaGiderSistemi.Controllers
 {
@@ -8,7 +8,7 @@ namespace FaturaGiderSistemi.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        // Veritabaný baðlantýsýný buraya da çekiyoruz ki hesaplama yapabilelim
+        // Veritabanýný (Context) HomeController'a enjekte ediyoruz
         public HomeController(ApplicationDbContext context)
         {
             _context = context;
@@ -16,16 +16,28 @@ namespace FaturaGiderSistemi.Controllers
 
         public IActionResult Index()
         {
-            // Veritabanýndaki kayýtlarý sayýp, özetleri ViewBag ile arayüze gönderiyoruz
-            ViewBag.ToplamSirket = _context.Sirketler.Count();
-            ViewBag.ToplamFatura = _context.Faturalar.Count();
+            // 1. Toplam kayýtlý fatura sayýsý
+            ViewBag.ToplamFaturaSayisi = _context.Faturalar.Count();
 
-            // Durumu true (Ödendi) olanlarýn toplam tutarý
-            ViewBag.OdenenTutar = _context.Faturalar.Where(f => f.Durum).Sum(f => f.ToplamTutar);
+            // 2. Toplam kayýtlý þirket sayýsý
+            ViewBag.ToplamSirketSayisi = _context.Sirketler.Count();
 
-            // Durumu false (Ödenmedi) olanlarýn toplam tutarý
-            ViewBag.BekleyenTutar = _context.Faturalar.Where(f => f.Durum == false).Sum(f => f.ToplamTutar);
+            // 3. Durumu "Ödendi" (True) olan faturalarýn toplam tutarý
+            // Veritabaný boþken hata vermemesi için (decimal?) ve null coalescing (?? 0) kullanýyoruz
+            ViewBag.ToplamOdenen = _context.Faturalar
+                .Where(f => f.Durum == true)
+                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
 
+            // 4. Durumu "Bekliyor" (False) olan faturalarýn toplam tutarý
+            ViewBag.ToplamBekleyen = _context.Faturalar
+                .Where(f => f.Durum == false)
+                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
+
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
             return View();
         }
     }

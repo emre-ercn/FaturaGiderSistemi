@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <!-- İŞTE HATALARI EKRANA BASTIRACAK OLAN SİHİRLİ KOD BURADA -->
+            
             <div asp-validation-summary="All" class="text-danger fw-bold fs-5 mb-3"></div>
 
             <input type="hidden" asp-for="Id" />
@@ -45,13 +45,13 @@
                 </label>
             </div>
             <div class="form-group mb-3">
-                <label class="fw-bold">Şirket</label>
-                <select asp-for="SirketId" class="form-control" asp-items="ViewBag.SirketId"></select>
+                <label class="control-label fw-bold">Şirket</label>
+                <select asp-for="SirketId" class="form-control" asp-items="ViewBag.SirketlerListesi">
+                    <option value="">-- Şirket Seçin --</option>
+                </select>
+                <span asp-validation-for="SirketId" class="text-danger"></span>
             </div>
-            <div class="form-group mb-4">
-                <label class="fw-bold">Kullanıcı</label>
-                <select asp-for="KullaniciId" class="form-control" asp-items="ViewBag.KullaniciId"></select>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Kaydet" class="btn btn-primary px-4" />
                 <a asp-action="Index" class="btn btn-secondary px-4">Listeye Dön</a>
