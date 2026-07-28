@@ -1,120 +1,63 @@
-﻿@model FaturaGiderSistemi.Models.PaginatedList<FaturaGiderSistemi.Models.Fatura>
-
+﻿@model IEnumerable<FaturaGiderSistemi.Models.Fatura>
 @{
-    ViewData["Title"] = "Fatura Listesi";
+    ViewData["Title"] = "Faturalar";
 }
 
-<h2 class="mb-4">Faturalar</h2>
-
-<!-- YENİ BUTONLAR VE ARAMA ÇUBUĞU ALANI -->
-<div class="row mb-3">
-    <!-- Sol Taraf: Butonlar -->
-    <div class="col-md-6">
-        <a asp-action="Create" class="btn btn-primary">Yeni Fatura Ekle</a>
-        <a asp-action="ExportToExcel" class="btn btn-success ms-2">
-            <i class="bi bi-file-earmark-excel"></i> Excel Olarak İndir
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Kayıtlı Faturalar</h3>
+        <a asp-action="Create" class="btn btn-primary fw-bold shadow-sm">
+            + Yeni Fatura Ekle
         </a>
     </div>
 
-    <!-- Sağ Taraf: Arama Çubuğu -->
-    <div class="col-md-6">
-        <form asp-action="Index" method="get">
-            <div class="input-group">
-                <!-- ViewData ile arama kutusunun içini dolu tutuyoruz -->
-                <input type="text" name="aramaKelimesi" value="@ViewData["ArananKelime"]" class="form-control" placeholder="Fatura No veya Şirket Adı ara..." />
-                <button type="submit" class="btn btn-outline-secondary">Ara</button>
-                <a asp-action="Index" class="btn btn-outline-danger">Temizle</a>
-            </div>
-        </form>
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Fatura No</th>
+                        <th>Şirket</th>
+                        <th>Toplam Tutar</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="fw-bold">@item.FaturaNo</span></td>
+                            <td>@(item.Sirket != null ? item.Sirket.Ad : "Bilinmiyor")</td>
+                            <td>@item.ToplamTutar.ToString("N2") ₺</td>
+                            <td>@item.Tarih.ToShortDateString()</td>
+                            <td>
+                                @if (item.Durum)
+                                {
+                                    <span class="badge bg-success">Ödendi</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Bekliyor</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detay</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-warning text-center m-3">
+                    Henüz sisteme eklenmiş bir fatura bulunmuyor.
+                </div>
+            }
+        </div>
     </div>
 </div>
-
-<!-- LİSTE TABLOSU -->
-<table class="table table-bordered table-striped mt-3">
-    <thead class="table-dark">
-        <tr>
-            <th>Fatura No</th>
-            <th>Tarih</th>
-            <th>Şirket Adı</th>
-            <th>KDV Oranı</th>
-            <th>Toplam Tutar</th>
-            <th>Durum</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td colspan="7" class="text-center text-danger fw-bold">Aradığınız kritere uygun fatura bulunamadı!</td>
-            </tr>
-        }
-        else
-        {
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.FaturaNo</td>
-                    <td>@item.Tarih.ToString("dd.MM.yyyy")</td>
-                    <td>@(item.Sirket != null ? item.Sirket.Ad : "-")</td>
-                    <td>%@item.KdvOrani</td>
-                    <td>@item.ToplamTutar ₺</td>
-                    <td>
-                        @if (item.Durum)
-                        {
-                            <span class="badge bg-success">Ödendi</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-warning text-dark">Bekliyor</span>
-                        }
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-
-<!-- SAYFALAMA BUTONLARI -->
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
-
-<nav aria-label="Page navigation" class="mt-4">
-    <ul class="pagination justify-content-center">
-        <!-- Önceki Sayfa -->
-        <li class="page-item @prevDisabled">
-            <a class="page-link" asp-action="Index"
-               asp-route-pageNumber="@(Model.PageIndex - 1)"
-               asp-route-aramaKelimesi="@ViewData["ArananKelime"]">
-                Önceki
-            </a>
-        </li>
-
-        <!-- Sayfa Numaraları -->
-        @for (int i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
-                <a class="page-link" asp-action="Index"
-                   asp-route-pageNumber="@i"
-                   asp-route-aramaKelimesi="@ViewData["ArananKelime"]">
-                    @i
-                </a>
-            </li>
-        }
-
-        <!-- Sonraki Sayfa -->
-        <li class="page-item @nextDisabled">
-            <a class="page-link" asp-action="Index"
-               asp-route-pageNumber="@(Model.PageIndex + 1)"
-               asp-route-aramaKelimesi="@ViewData["ArananKelime"]">
-                Sonraki
-            </a>
-        </li>
-    </ul>
-</nav>
