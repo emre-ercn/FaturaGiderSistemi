@@ -13,7 +13,7 @@
                 <div class="card-body p-4">
                     <form asp-action="Create" method="post">
 
-                        <!-- Fatura & Fiş No -->
+                     
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="FaturaNo" class="form-label fw-bold"></label>
@@ -26,7 +26,7 @@
                             </div>
                         </div>
 
-                        <!-- Tutar & KDV Hesaplamaları -->
+                       
                         <div class="row bg-light p-3 rounded mb-3 border">
                             <div class="col-md-4 mb-3 mb-md-0">
                                 <label asp-for="Tutar" class="form-label fw-bold"></label>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <!-- Tarih & Durum -->
+                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="Tarih" class="form-label fw-bold"></label>
@@ -66,7 +66,7 @@
                             </div>
                         </div>
 
-                        <!-- Yabancı Anahtarlar (Dropdown) -->
+                        
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label asp-for="SirketId" class="form-label fw-bold"></label>
@@ -82,7 +82,7 @@
                             </div>
                         </div>
 
-                        <!-- Butonlar -->
+                        
                         <div class="d-flex justify-content-end border-top pt-3">
                             <a asp-controller="Home" asp-action="Index" class="btn btn-secondary me-2 px-4">İptal</a>
                             <button type="submit" class="btn btn-primary px-4 fw-bold">Kaydet</button>

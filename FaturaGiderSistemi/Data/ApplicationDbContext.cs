@@ -9,7 +9,6 @@ namespace FaturaGiderSistemi.Data
         {
         }
 
-        // Veritabanında oluşacak tablolarımızın isimleri
         public DbSet<Kullanici> Kullanicilar { get; set; }
         public DbSet<Sirket> Sirketler { get; set; }
         public DbSet<Fatura> Faturalar { get; set; }

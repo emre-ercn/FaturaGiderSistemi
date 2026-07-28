@@ -1,8 +1,7 @@
-using FaturaGiderSistemi.Data;
-using FaturaGiderSistemi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+using FaturaGiderSistemi.Data;
+using System.Linq;
 
 namespace FaturaGiderSistemi.Controllers
 {
@@ -18,26 +17,20 @@ namespace FaturaGiderSistemi.Controllers
 
         public IActionResult Index()
         {
-            // Senin Index.cshtml dosyanýn beklediði deðiþken isimleri:
+            // Dashboard Kartlarý için Deðerler
             ViewBag.ToplamFaturaSayisi = _context.Faturalar.Count();
+
             ViewBag.ToplamSirketSayisi = _context.Sirketler.Count();
 
-            // Veritabanýnda fatura durumu nasýl tutuluyorsa (örneðin boolean true/false) 
-            ViewBag.ToplamOdenen = _context.Faturalar.Where(x => x.Durum == true).Sum(y => (decimal?)y.Tutar) ?? 0;
-            ViewBag.ToplamBekleyen = _context.Faturalar.Where(x => x.Durum == false).Sum(y => (decimal?)y.Tutar) ?? 0;
+            ViewBag.ToplamOdenen = _context.Faturalar
+                .Where(f => f.Durum == true)
+                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
+
+            ViewBag.ToplamBekleyen = _context.Faturalar
+                .Where(f => f.Durum == false)
+                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
 
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

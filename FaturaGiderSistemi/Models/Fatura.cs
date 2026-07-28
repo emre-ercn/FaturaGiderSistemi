@@ -28,7 +28,6 @@ namespace FaturaGiderSistemi.Models
         [Display(Name = "Fatura Durumu")]
         public bool Durum { get; set; }
 
-        // --- TABLO BAĞLANTILARI (FOREIGN KEYS) ---
 
         [Display(Name = "Şirket")]
         public int SirketId { get; set; }

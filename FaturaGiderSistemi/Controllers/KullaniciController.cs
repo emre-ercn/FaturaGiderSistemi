@@ -16,9 +16,6 @@ namespace FaturaGiderSistemi.Controllers
             _context = context;
         }
 
-        // ==========================================
-        // 17. GÜN: GİRİŞ YAP (LOGIN) VE ÇIKIŞ YAP
-        // ==========================================
 
         [HttpGet]
         public IActionResult Login()
@@ -29,7 +26,7 @@ namespace FaturaGiderSistemi.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Kullanici p)
         {
-            // Kullanıcı adı ve şifre kontrolü
+            
             var bilgiler = _context.Kullanicilar.FirstOrDefault(x => x.Ad == p.Ad && x.Sifre == p.Sifre);
 
             if (bilgiler != null)
@@ -57,9 +54,6 @@ namespace FaturaGiderSistemi.Controllers
             return RedirectToAction("Login", "Kullanici");
         }
 
-        // ==========================================
-        // MEVCUT CRUD (EKLE, SİL, GÜNCELLE, LİSTELE) İŞLEMLERİ
-        // ==========================================
 
         public IActionResult Index()
         {

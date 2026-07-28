@@ -18,7 +18,7 @@ namespace FaturaGiderSistemi.Controllers
             _context = context;
         }
 
-        // 1. FATURALARI LİSTELEME EKRANI
+       
         public IActionResult Index()
         {
             var faturalar = _context.Faturalar
@@ -28,7 +28,6 @@ namespace FaturaGiderSistemi.Controllers
             return View(faturalar);
         }
 
-        // 2. YENİ FATURA EKLEME SAYFASINI AÇMA (GET)
         [HttpGet]
         public IActionResult Create()
         {
@@ -37,13 +36,11 @@ namespace FaturaGiderSistemi.Controllers
             return View();
         }
 
-        // 3. YENİ FATURAYI KAYDETME (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Fatura fatura)
         {
-            // İŞTE SİHRİ YAPAN KISIM BURASI: 
-            // Sisteme "Şirket ve Kullanıcı objelerini doğrulamaya çalışma, biz ID'leri veriyoruz" diyoruz.
+           
             ModelState.Remove("Sirket");
             ModelState.Remove("Kullanici");
 

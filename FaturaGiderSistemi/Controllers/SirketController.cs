@@ -16,19 +16,16 @@ namespace FaturaGiderSistemi.Controllers
             _context = context;
         }
 
-        // GET: Sirket
         public async Task<IActionResult> Index()
         {
             return View(await _context.Sirketler.ToListAsync());
         }
 
-        // GET: Sirket/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Sirket/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Ad,VergiNo,Adres")] Sirket sirket)
