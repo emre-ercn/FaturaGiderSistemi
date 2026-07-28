@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using FaturaGiderSistemi.Data;
+﻿using FaturaGiderSistemi.Data;
 using FaturaGiderSistemi.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FaturaGiderSistemi.Controllers
 {
@@ -19,61 +16,79 @@ namespace FaturaGiderSistemi.Controllers
             _context = context;
         }
 
-        // GET: Kullanici
-        public async Task<IActionResult> Index()
+        // ==========================================
+        // 17. GÜN: GİRİŞ YAP (LOGIN) VE ÇIKIŞ YAP
+        // ==========================================
+
+        [HttpGet]
+        public IActionResult Login()
         {
-            return View(await _context.Kullanicilar.ToListAsync());
+            return View();
         }
 
-        // GET: Kullanici/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpPost]
+        public async Task<IActionResult> Login(Kullanici p)
         {
-            if (id == null)
+            // Kullanıcı adı ve şifre kontrolü
+            var bilgiler = _context.Kullanicilar.FirstOrDefault(x => x.Ad == p.Ad && x.Sifre == p.Sifre);
+
+            if (bilgiler != null)
             {
-                return NotFound();
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, p.Ad)
+                };
+
+                var useridentity = new ClaimsIdentity(claims, "Login");
+                ClaimsPrincipal principal = new ClaimsPrincipal(useridentity);
+
+                await HttpContext.SignInAsync(principal);
+                return RedirectToAction("Index", "Home");
             }
 
-            var kullanici = await _context.Kullanicilar
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (kullanici == null)
-            {
-                return NotFound();
-            }
-
-            return View(kullanici);
+            ViewBag.Hata = "Kullanıcı adı veya şifre hatalı!";
+            return View();
         }
 
-        // GET: Kullanici/Create
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Kullanici");
+        }
+
+        // ==========================================
+        // MEVCUT CRUD (EKLE, SİL, GÜNCELLE, LİSTELE) İŞLEMLERİ
+        // ==========================================
+
+        public IActionResult Index()
+        {
+            var degerler = _context.Kullanicilar.ToList();
+            return View(degerler);
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Kullanici/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ad,Soyad,Email,Sifre,Rol")] Kullanici kullanici)
+        public IActionResult Create(Kullanici p)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(kullanici);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Kullanicilar.Add(p);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(kullanici);
+            return View(p);
         }
 
-        // GET: Kullanici/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var kullanici = await _context.Kullanicilar.FindAsync(id);
+            var kullanici = _context.Kullanicilar.Find(id);
             if (kullanici == null)
             {
                 return NotFound();
@@ -81,77 +96,27 @@ namespace FaturaGiderSistemi.Controllers
             return View(kullanici);
         }
 
-        // POST: Kullanici/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ad,Soyad,Email,Sifre,Rol")] Kullanici kullanici)
+        public IActionResult Edit(Kullanici p)
         {
-            if (id != kullanici.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(kullanici);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!KullaniciExists(kullanici.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Kullanicilar.Update(p);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(kullanici);
+            return View(p);
         }
 
-        // GET: Kullanici/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var kullanici = await _context.Kullanicilar
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (kullanici == null)
-            {
-                return NotFound();
-            }
-
-            return View(kullanici);
-        }
-
-        // POST: Kullanici/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var kullanici = await _context.Kullanicilar.FindAsync(id);
+            var kullanici = _context.Kullanicilar.Find(id);
             if (kullanici != null)
             {
                 _context.Kullanicilar.Remove(kullanici);
+                _context.SaveChanges();
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool KullaniciExists(int id)
-        {
-            return _context.Kullanicilar.Any(e => e.Id == id);
+            return RedirectToAction("Index");
         }
     }
 }

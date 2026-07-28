@@ -1,14 +1,16 @@
+using FaturaGiderSistemi.Data;
+using FaturaGiderSistemi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FaturaGiderSistemi.Data; // Kendi Data klasörünün yoluna göre gerekirse düzelt
-using System.Linq;
+using System.Diagnostics;
 
 namespace FaturaGiderSistemi.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        // Veritabanýný (Context) HomeController'a enjekte ediyoruz
         public HomeController(ApplicationDbContext context)
         {
             _context = context;
@@ -16,22 +18,13 @@ namespace FaturaGiderSistemi.Controllers
 
         public IActionResult Index()
         {
-            // 1. Toplam kayýtlý fatura sayýsý
+            // Senin Index.cshtml dosyanýn beklediði deðiþken isimleri:
             ViewBag.ToplamFaturaSayisi = _context.Faturalar.Count();
-
-            // 2. Toplam kayýtlý þirket sayýsý
             ViewBag.ToplamSirketSayisi = _context.Sirketler.Count();
 
-            // 3. Durumu "Ödendi" (True) olan faturalarýn toplam tutarý
-            // Veritabaný boþken hata vermemesi için (decimal?) ve null coalescing (?? 0) kullanýyoruz
-            ViewBag.ToplamOdenen = _context.Faturalar
-                .Where(f => f.Durum == true)
-                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
-
-            // 4. Durumu "Bekliyor" (False) olan faturalarýn toplam tutarý
-            ViewBag.ToplamBekleyen = _context.Faturalar
-                .Where(f => f.Durum == false)
-                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
+            // Veritabanýnda fatura durumu nasýl tutuluyorsa (örneðin boolean true/false) 
+            ViewBag.ToplamOdenen = _context.Faturalar.Where(x => x.Durum == true).Sum(y => (decimal?)y.Tutar) ?? 0;
+            ViewBag.ToplamBekleyen = _context.Faturalar.Where(x => x.Durum == false).Sum(y => (decimal?)y.Tutar) ?? 0;
 
             return View();
         }
@@ -39,6 +32,12 @@ namespace FaturaGiderSistemi.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
