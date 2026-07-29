@@ -1,0 +1,76 @@
+﻿@model FaturaGiderSistemi.Models.RaporViewModel
+
+@{
+    ViewData["Title"] = "Raporlar";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Finansal Rapor Özeti</h2>
+</div>
+
+<!-- Özet Kartları -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Toplam Ödenen</h5>
+                <h3 class="card-text">@Model.ToplamOdenen.ToString("C2")</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Toplam Bekleyen</h5>
+                <h3 class="card-text">@Model.ToplamBekleyen.ToString("C2")</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Toplam Fatura Adedi</h5>
+                <h3 class="card-text">@Model.ToplamFaturaSayisi Adet</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Şirket Bazlı Dağılım Tablosu -->
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Şirketlere Göre Fatura Hacimleri</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">Şirket Adı</th>
+                        <th>Kesilen Fatura Sayısı</th>
+                        <th>Toplam Tutar Hacmi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SirketRaporlari == null || !Model.SirketRaporlari.Any())
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-3">Henüz raporlanacak veri bulunmuyor.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var sirket in Model.SirketRaporlari)
+                        {
+                            <tr>
+                                <td class="ps-3 align-middle"><strong>@sirket.SirketAdi</strong></td>
+                                <td class="align-middle">@sirket.FaturaSayisi</td>
+                                <td class="align-middle">@sirket.ToplamTutar.ToString("C2")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
