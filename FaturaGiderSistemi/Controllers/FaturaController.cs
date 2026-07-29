@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ClosedXML.Excel;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using FaturaGiderSistemi.Data;
-using FaturaGiderSistemi.Models; // Modelinin olduğu namespace (gerekirse burayı kendi projene göre ayarla)
+using FaturaGiderSistemi.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,23 +24,19 @@ namespace FaturaGiderSistemi.Controllers
         // GET: Faturalar
         public async Task<IActionResult> Index(string aramaKelimesi, string durumFiltresi)
         {
-            // Şirket tablosunu dahil ederek (Include) faturaları çekiyoruz ki view'da şirket adı gözüksün
             var faturalar = _context.Faturalar.Include(f => f.Sirket).AsQueryable();
 
-            // 1. Arama Kelimesine Göre Filtreleme
             if (!string.IsNullOrEmpty(aramaKelimesi))
             {
                 faturalar = faturalar.Where(f => f.FaturaNo.Contains(aramaKelimesi));
             }
 
-            // 2. Duruma Göre Filtreleme (1: Ödenen, 0: Bekleyen)
             if (!string.IsNullOrEmpty(durumFiltresi))
             {
                 bool odendiMi = durumFiltresi == "1";
                 faturalar = faturalar.Where(f => f.Durum == odendiMi);
             }
 
-            // Seçilen değerler formda kalmaya devam etsin diye ViewBag'e aktarıyoruz
             ViewBag.AramaKelimesi = aramaKelimesi;
             ViewBag.DurumFiltresi = durumFiltresi;
 
@@ -122,6 +120,49 @@ namespace FaturaGiderSistemi.Controllers
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        // EXCEL'E AKTARMA METODU (Şimdi sınıfın içinde ve güvende!)
+        public IActionResult ExcelaAktar()
+        {
+            var faturalar = _context.Faturalar.Include(f => f.Sirket).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Faturalar Listesi");
+
+                worksheet.Cell(1, 1).Value = "Fatura No";
+                worksheet.Cell(1, 2).Value = "Fiş No";
+                worksheet.Cell(1, 3).Value = "Şirket Adı";
+                worksheet.Cell(1, 4).Value = "Toplam Tutar";
+                worksheet.Cell(1, 5).Value = "Durum";
+                worksheet.Cell(1, 6).Value = "Tarih";
+
+                var headerRow = worksheet.Row(1);
+                headerRow.Style.Font.Bold = true;
+                headerRow.Style.Fill.BackgroundColor = XLColor.LightGray;
+
+                int row = 2;
+                foreach (var fatura in faturalar)
+                {
+                    worksheet.Cell(row, 1).Value = fatura.FaturaNo;
+                    worksheet.Cell(row, 2).Value = fatura.FisNo;
+                    worksheet.Cell(row, 3).Value = fatura.Sirket != null ? fatura.Sirket.Ad : "Bilinmiyor";
+                    worksheet.Cell(row, 4).Value = fatura.ToplamTutar;
+                    worksheet.Cell(row, 5).Value = fatura.Durum ? "Ödendi" : "Bekliyor";
+                    worksheet.Cell(row, 6).Value = fatura.Tarih.ToString("dd.MM.yyyy");
+                    row++;
+                }
+
+                worksheet.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Fatura_Listesi.xlsx");
+                }
+            }
         }
     }
 }
