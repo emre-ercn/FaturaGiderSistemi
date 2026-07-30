@@ -24,19 +24,31 @@ namespace FaturaMasrafSistemi.Controllers
         }
 
         // --- 1. LİSTELEME EKRANI ---
-        public async Task<IActionResult> Index()
+        // GET: Faturalar
+        public async Task<IActionResult> Index(string aramaKelimesi, bool? durumFiltresi)
         {
-            var faturalar = await _context.Faturalar.Include(f => f.Sirket).ToListAsync();
-            return View(faturalar);
-        }
+            // 1. Veritabanı sorgusunu başlat (Şirket bilgisiyle birlikte)
+            var faturalar = _context.Faturalar.Include(f => f.Sirket).AsQueryable();
 
-        // --- 2. FATURA EKLEME ---
-        public IActionResult Create()
-        {
-            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad");
-            return View();
-        }
+            // 2. Arama kutusu doluysa (Şirket Adına göre filtrele)
+            if (!string.IsNullOrEmpty(aramaKelimesi))
+            {
+                faturalar = faturalar.Where(f => f.Sirket.Ad.Contains(aramaKelimesi));
+            }
 
+            // 3. Durum seçilmişse (Ödendi / Bekliyor)
+            if (durumFiltresi.HasValue)
+            {
+                faturalar = faturalar.Where(f => f.Durum == durumFiltresi.Value);
+            }
+
+            // Seçilen değerleri View'da (ekranda) sabit tutmak için ViewBag'e atıyoruz
+            ViewBag.AramaKelimesi = aramaKelimesi;
+            ViewBag.DurumFiltresi = durumFiltresi;
+
+            // Sonuçları listeye çevir ve sayfaya gönder
+            return View(await faturalar.ToListAsync());
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Fatura fatura)

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FaturaGiderSistemi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a837cb38f92b54067cbec393f5b07b1b03cf54fd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+46726ffe03aca90c8f72d048a727e0f881455e10")]
 [assembly: System.Reflection.AssemblyProductAttribute("FaturaGiderSistemi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FaturaGiderSistemi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
