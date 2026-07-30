@@ -7,6 +7,7 @@
         <i class="bi bi-speedometer2"></i> Dashboard (Yönetici Özeti)
     </h2>
 
+    <!-- Üst Kısım: Özet Kartları -->
     <div class="row">
         <!-- Toplam Fatura Kartı (Mavi) -->
         <div class="col-md-4 mb-4">
@@ -66,13 +67,89 @@
         </div>
     </div>
 
-    <!-- Alt Kısım: Hoş Geldin Mesajı -->
+    <!-- Alt Kısım: Grafikler -->
     <div class="row mt-2">
-        <div class="col-12">
-            <div class="alert alert-info border-0 shadow-sm" role="alert">
-                <h5 class="alert-heading fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Sisteme Hoş Geldiniz!</h5>
-                <p class="mb-0">Yukarıdaki özet paneli üzerinden şirketinizin fatura ve gider tablosunu anlık olarak takip edebilirsiniz. Kutucukların altındaki "Detayları Gör" bağlantılarına tıklayarak doğrudan fatura listesine ulaşabilirsiniz.</p>
+        <!-- Halka Grafiği (Tutar Dağılımı) -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                    <h5 class="fw-bold text-secondary"><i class="bi bi-pie-chart-fill me-2 text-primary"></i>Tutar Dağılımı (₺)</h5>
+                </div>
+                <div class="card-body d-flex justify-content-center">
+                    <div style="width: 70%;">
+                        <canvas id="tutarGrafik"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sütun Grafiği (Adet Dağılımı) -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                    <h5 class="fw-bold text-secondary"><i class="bi bi-bar-chart-fill me-2 text-primary"></i>Fatura Durumları (Adet)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="adetGrafik"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Chart.js Kütüphanesi ve JavaScript Kodlarımız -->
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // C#'tan gelen verileri (virgül hatası olmaması için) güvenli bir şekilde JS'e alıyoruz
+        const odenenTutar = @Json.Serialize(ViewBag.ToplamOdendi);
+        const bekleyenTutar = @Json.Serialize(ViewBag.ToplamOdenmedi);
+        const odenenAdet = @ViewBag.OdenenAdet;
+        const bekleyenAdet = @ViewBag.BekleyenAdet;
+
+        // 1. Tutar Halka Grafiği (Doughnut)
+        const ctxTutar = document.getElementById('tutarGrafik').getContext('2d');
+        new Chart(ctxTutar, {
+            type: 'doughnut',
+            data: {
+                labels: ['Ödenen (₺)', 'Bekleyen (₺)'],
+                datasets: [{
+                    data: [odenenTutar, bekleyenTutar],
+                    backgroundColor: ['#198754', '#dc3545'], // Bootstrap Success ve Danger renkleri
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 2. Adet Sütun Grafiği (Bar)
+        const ctxAdet = document.getElementById('adetGrafik').getContext('2d');
+        new Chart(ctxAdet, {
+            type: 'bar',
+            data: {
+                labels: ['Ödenen', 'Bekleyen'],
+                datasets: [{
+                    label: 'Fatura Adedi',
+                    data: [odenenAdet, bekleyenAdet],
+                    backgroundColor: ['#198754', '#dc3545'],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 } // Küsüratlı fatura adedi olmaz :)
+                    }
+                },
+                plugins: {
+                    legend: { display: false } // Sütun grafiğinde alttaki açıklamaya gerek yok
+                }
+            }
+        });
+    </script>
+}

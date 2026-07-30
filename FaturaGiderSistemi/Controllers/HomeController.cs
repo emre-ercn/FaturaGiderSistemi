@@ -25,10 +25,16 @@ namespace FaturaGiderSistemi.Controllers
             var toplamOdendi = await _context.Faturalar.Where(f => f.Durum == true).SumAsync(f => f.Tutar);
             var toplamOdenmedi = await _context.Faturalar.Where(f => f.Durum == false).SumAsync(f => f.Tutar);
 
+            // GRAFÝKLER ÝÇÝN YENÝ EKLENEN KISIM: Adetleri buluyoruz
+            var odenenAdet = await _context.Faturalar.CountAsync(f => f.Durum == true);
+            var bekleyenAdet = await _context.Faturalar.CountAsync(f => f.Durum == false);
+
             // 2. Hesaplanan verileri arayüze (View) taþýyoruz
             ViewBag.ToplamFatura = toplamFatura;
             ViewBag.ToplamOdendi = toplamOdendi;
             ViewBag.ToplamOdenmedi = toplamOdenmedi;
+            ViewBag.OdenenAdet = odenenAdet;
+            ViewBag.BekleyenAdet = bekleyenAdet;
 
             return View();
         }
