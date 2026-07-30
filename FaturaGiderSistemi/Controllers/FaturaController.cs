@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using ClosedXML.Excel;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
 using FaturaGiderSistemi.Data;
 using FaturaGiderSistemi.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+// Kendi projenin Models klasörünü buraya using ile eklediğinden emin ol (Örn: using FaturaMasrafSistemi.Models;)
 
-namespace FaturaGiderSistemi.Controllers
+namespace FaturaMasrafSistemi.Controllers
 {
-    [Authorize]
     public class FaturalarController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,36 +23,20 @@ namespace FaturaGiderSistemi.Controllers
             _context = context;
         }
 
-        // GET: Faturalar
-        public async Task<IActionResult> Index(string aramaKelimesi, string durumFiltresi)
+        // --- 1. LİSTELEME EKRANI ---
+        public async Task<IActionResult> Index()
         {
-            var faturalar = _context.Faturalar.Include(f => f.Sirket).AsQueryable();
-
-            if (!string.IsNullOrEmpty(aramaKelimesi))
-            {
-                faturalar = faturalar.Where(f => f.FaturaNo.Contains(aramaKelimesi));
-            }
-
-            if (!string.IsNullOrEmpty(durumFiltresi))
-            {
-                bool odendiMi = durumFiltresi == "1";
-                faturalar = faturalar.Where(f => f.Durum == odendiMi);
-            }
-
-            ViewBag.AramaKelimesi = aramaKelimesi;
-            ViewBag.DurumFiltresi = durumFiltresi;
-
-            return View(await faturalar.ToListAsync());
+            var faturalar = await _context.Faturalar.Include(f => f.Sirket).ToListAsync();
+            return View(faturalar);
         }
 
-        // GET: Faturalar/Create
+        // --- 2. FATURA EKLEME ---
         public IActionResult Create()
         {
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Ad");
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad");
             return View();
         }
 
-        // POST: Faturalar/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Fatura fatura)
@@ -61,11 +47,11 @@ namespace FaturaGiderSistemi.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
             return View(fatura);
         }
 
-        // GET: Faturalar/Edit/5
+        // --- 3. FATURA DÜZENLEME ---
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -73,11 +59,10 @@ namespace FaturaGiderSistemi.Controllers
             var fatura = await _context.Faturalar.FindAsync(id);
             if (fatura == null) return NotFound();
 
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
             return View(fatura);
         }
 
-        // POST: Faturalar/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Fatura fatura)
@@ -90,11 +75,11 @@ namespace FaturaGiderSistemi.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SirketId"] = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
+            ViewBag.SirketId = new SelectList(_context.Sirketler, "Id", "Ad", fatura.SirketId);
             return View(fatura);
         }
 
-        // GET: Faturalar/Delete/5
+        // --- 4. FATURA SİLME ---
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -108,7 +93,6 @@ namespace FaturaGiderSistemi.Controllers
             return View(fatura);
         }
 
-        // POST: Faturalar/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -122,47 +106,99 @@ namespace FaturaGiderSistemi.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // EXCEL'E AKTARMA METODU (Şimdi sınıfın içinde ve güvende!)
-        public IActionResult ExcelaAktar()
+        // --- 22. GÜN: EXCEL'E AKTARMA (ClosedXML) ---
+        public async Task<IActionResult> ExcelaAktar()
         {
-            var faturalar = _context.Faturalar.Include(f => f.Sirket).ToList();
+            var faturalar = await _context.Faturalar.Include(f => f.Sirket).ToListAsync();
 
             using (var workbook = new XLWorkbook())
             {
-                var worksheet = workbook.Worksheets.Add("Faturalar Listesi");
+                var worksheet = workbook.Worksheets.Add("Faturalar");
 
-                worksheet.Cell(1, 1).Value = "Fatura No";
-                worksheet.Cell(1, 2).Value = "Fiş No";
-                worksheet.Cell(1, 3).Value = "Şirket Adı";
-                worksheet.Cell(1, 4).Value = "Toplam Tutar";
+                // Başlıklar
+                worksheet.Cell(1, 1).Value = "Fatura ID";
+                worksheet.Cell(1, 2).Value = "Şirket Adı";
+                worksheet.Cell(1, 3).Value = "Tarih";
+                worksheet.Cell(1, 4).Value = "Tutar (TL)";
                 worksheet.Cell(1, 5).Value = "Durum";
-                worksheet.Cell(1, 6).Value = "Tarih";
 
-                var headerRow = worksheet.Row(1);
-                headerRow.Style.Font.Bold = true;
-                headerRow.Style.Fill.BackgroundColor = XLColor.LightGray;
-
-                int row = 2;
+                // Veriler
+                int currentRow = 2;
                 foreach (var fatura in faturalar)
                 {
-                    worksheet.Cell(row, 1).Value = fatura.FaturaNo;
-                    worksheet.Cell(row, 2).Value = fatura.FisNo;
-                    worksheet.Cell(row, 3).Value = fatura.Sirket != null ? fatura.Sirket.Ad : "Bilinmiyor";
-                    worksheet.Cell(row, 4).Value = fatura.ToplamTutar;
-                    worksheet.Cell(row, 5).Value = fatura.Durum ? "Ödendi" : "Bekliyor";
-                    worksheet.Cell(row, 6).Value = fatura.Tarih.ToString("dd.MM.yyyy");
-                    row++;
+                    worksheet.Cell(currentRow, 1).Value = fatura.Id;
+                    worksheet.Cell(currentRow, 2).Value = fatura.Sirket?.Ad;
+                    worksheet.Cell(currentRow, 3).Value = fatura.Tarih.ToString("dd.MM.yyyy");
+                    worksheet.Cell(currentRow, 4).Value = fatura.Tutar;
+                    worksheet.Cell(currentRow, 5).Value = fatura.Durum ? "Ödendi" : "Ödenmedi";
+                    currentRow++;
                 }
-
-                worksheet.Columns().AdjustToContents();
 
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();
-                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Fatura_Listesi.xlsx");
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Faturalar.xlsx");
                 }
             }
+        }
+
+        // --- 23. GÜN: PDF'E AKTARMA (QuestPDF) ---
+        [HttpGet]
+        public async Task<IActionResult> FaturaPdfIndir(int id)
+        {
+            var fatura = await _context.Faturalar
+                .Include(f => f.Sirket)
+                .FirstOrDefaultAsync(f => f.Id == id);
+
+            if (fatura == null)
+            {
+                return NotFound();
+            }
+
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(2, Unit.Centimetre);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(12));
+
+                    page.Header()
+                        .Text("FATURA DÖKÜMÜ")
+                        .SemiBold().FontSize(24).FontColor(Colors.Blue.Darken2);
+
+                    page.Content().PaddingVertical(1, Unit.Centimetre).Column(x =>
+                    {
+                        x.Spacing(15);
+
+                        x.Item().Text($"Şirket Adı: {fatura.Sirket?.Ad}").FontSize(14).SemiBold();
+                        x.Item().LineHorizontal(1f);
+
+                        x.Item().Text($"Tarih: {fatura.Tarih.ToString("dd.MM.yyyy")}");
+                        x.Item().Text($"Tutar: {fatura.Tutar:N2} TL").FontColor(Colors.Green.Darken2).SemiBold();
+
+                        string odemeDurumu = fatura.Durum ? "Ödendi" : "Ödenmedi";
+                        string durumRengi = fatura.Durum ? Colors.Green.Medium : Colors.Red.Medium;
+
+                        x.Item().Text($"Ödeme Durumu: {odemeDurumu}").FontColor(durumRengi).Bold();
+                    });
+
+                    page.Footer()
+                        .AlignCenter()
+                        .Text(x =>
+                        {
+                            x.Span("Fatura Masraf Sistemi - Sayfa ");
+                            x.CurrentPageNumber();
+                            x.Span(" / ");
+                            x.TotalPages();
+                        });
+                });
+            });
+
+            byte[] pdfBytes = document.GeneratePdf();
+            return File(pdfBytes, "application/pdf", $"Fatura_Detay_{id}.pdf");
         }
     }
 }

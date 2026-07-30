@@ -1,4 +1,4 @@
-using FaturaGiderSistemi.Data;
+ï»¿using FaturaGiderSistemi.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,20 +7,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Veritabaný Baðlantýsý (Kendi ConnectionString'in appsettings.json'da olmalý)
+// VeritabanÄ± BaÄŸlantÄ±sÄ± (Kendi ConnectionString'in appsettings.json'da olmalÄ±)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 17. GÜN: Güvenlik ve Çerez Ayarlarý
+// 17. GÃœN: GÃ¼venlik ve Ã‡erez AyarlarÄ±
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Kullanici/Login"; // Giriþ yapmayanlarý buraya atacaðýz
+        options.LoginPath = "/Kullanici/Login"; // GiriÅŸ yapmayanlarÄ± buraya atacaÄŸÄ±z
         options.Cookie.Name = "FaturaSistemiAuth";
-        options.ExpireTimeSpan = TimeSpan.FromHours(2); // 2 saat sonra otomatik çýkýþ
+        options.ExpireTimeSpan = TimeSpan.FromHours(2); // 2 saat sonra otomatik Ã§Ä±kÄ±ÅŸ
     });
+// QuestPDF Topluluk LisansÄ±
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 var app = builder.Build();
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,7 +37,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// SIRA ÇOK ÖNEMLÝ: Authentication, Authorization'dan ÖNCE gelmeli
+// SIRA Ã‡OK Ã–NEMLÄ°: Authentication, Authorization'dan Ã–NCE gelmeli
 app.UseAuthentication();
 app.UseAuthorization();
 
