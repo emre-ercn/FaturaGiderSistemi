@@ -1,104 +1,78 @@
 ﻿@{
-    ViewData["Title"] = "Ana Sayfa";
+    ViewData["Title"] = "Yönetici Özeti";
 }
 
 <div class="container mt-4">
-    <h2 class="mb-4 fw-bold">Yönetim Paneli</h2>
+    <h2 class="mb-4 text-primary fw-bold">
+        <i class="bi bi-speedometer2"></i> Dashboard (Yönetici Özeti)
+    </h2>
 
     <div class="row">
-        <!-- Toplam Fatura Kartı -->
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-primary shadow h-100">
+        <!-- Toplam Fatura Kartı (Mavi) -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-primary shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Toplam Fatura</h5>
-                    <h2 class="display-5 fw-bold">@ViewBag.ToplamFaturaSayisi</h2>
-                    <p class="card-text">Sistemdeki kayıtlı evrak</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title text-uppercase text-white-50 fw-bold">Kayıtlı Fatura Sayısı</h6>
+                            <h2 class="mb-0 fw-bold">@ViewBag.ToplamFatura <span class="fs-6 fw-normal">Adet</span></h2>
+                        </div>
+                        <i class="bi bi-receipt fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link text-decoration-none" href="/Faturalar">Tüm Faturaları Gör</a>
+                    <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
                 </div>
             </div>
         </div>
 
-        <!-- Kayıtlı Şirket Kartı -->
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-info shadow h-100">
+        <!-- Ödenen Tutar Kartı (Yeşil) -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-success shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Kayıtlı Şirket</h5>
-                    <h2 class="display-5 fw-bold">@ViewBag.ToplamSirketSayisi</h2>
-                    <p class="card-text">Çalışılan kurum sayısı</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title text-uppercase text-white-50 fw-bold">Toplam Ödenen Tutar</h6>
+                            <h2 class="mb-0 fw-bold">@ViewBag.ToplamOdendi.ToString("N2") ₺</h2>
+                        </div>
+                        <i class="bi bi-cash-stack fs-1 opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link text-decoration-none" href="/Faturalar">Detayları Gör</a>
+                    <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
                 </div>
             </div>
         </div>
 
-        <!-- Ödenen Tutar Kartı -->
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-success shadow h-100">
+        <!-- Bekleyen (Ödenmeyen) Borç Kartı (Kırmızı) -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-danger shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Ödenen Toplam</h5>
-                    <h2 class="display-6 fw-bold">@ViewBag.ToplamOdenen.ToString("N2") ₺</h2>
-                    <p class="card-text">Tahsilatı tamamlanan</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title text-uppercase text-white-50 fw-bold">Bekleyen Ödemeler</h6>
+                            <h2 class="mb-0 fw-bold">@ViewBag.ToplamOdenmedi.ToString("N2") ₺</h2>
+                        </div>
+                        <i class="bi bi-exclamation-octagon fs-1 opacity-50"></i>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Bekleyen Tutar Kartı -->
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-danger shadow h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Bekleyen Ödemeler</h5>
-                    <h2 class="display-6 fw-bold">@ViewBag.ToplamBekleyen.ToString("N2") ₺</h2>
-                    <p class="card-text">Tahsilat bekleyen</p>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link text-decoration-none" href="/Faturalar">Detayları Gör</a>
+                    <div class="small text-white"><i class="bi bi-chevron-right"></i></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- GRAFİK ALANI -->
-    <div class="row mt-4">
-        <div class="col-md-6 mx-auto">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white fw-bold">
-                    <i class="bi bi-pie-chart-fill"></i> Ödeme Durumu Dağılımı
-                </div>
-                <div class="card-body">
-                    <!-- Grafiğin çizileceği tuval (canvas) -->
-                    <canvas id="faturaGrafigi" style="max-height: 300px;"></canvas>
-                </div>
+    <!-- Alt Kısım: Hoş Geldin Mesajı -->
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="alert alert-info border-0 shadow-sm" role="alert">
+                <h5 class="alert-heading fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Sisteme Hoş Geldiniz!</h5>
+                <p class="mb-0">Yukarıdaki özet paneli üzerinden şirketinizin fatura ve gider tablosunu anlık olarak takip edebilirsiniz. Kutucukların altındaki "Detayları Gör" bağlantılarına tıklayarak doğrudan fatura listesine ulaşabilirsiniz.</p>
             </div>
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <!-- Chart.js Kütüphanesini Çağırıyoruz -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-        var ctx = document.getElementById('faturaGrafigi').getContext('2d');
-        var faturaGrafigi = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Ödenen (₺)', 'Bekleyen (₺)'],
-                datasets: [{
-                    data: [
-                        @ViewBag.ToplamOdenen.ToString().Replace(",", "."),
-                        @ViewBag.ToplamBekleyen.ToString().Replace(",", ".")
-                    ],
-                    backgroundColor: [
-                        '#198754', // Yeşil (Ödenen)
-                        '#dc3545'  // Kırmızı (Bekleyen)
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    </script>
-}

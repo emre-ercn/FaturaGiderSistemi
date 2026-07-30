@@ -1,36 +1,47 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using FaturaGiderSistemi.Data;
+using FaturaGiderSistemi.Models; // Kendi Model klasörümüz
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FaturaGiderSistemi.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
 
+        // Veritabaný baðlantýsýný ana sayfaya dahil ediyoruz
         public HomeController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Dashboard Kartlarý için Deðerler
-            ViewBag.ToplamFaturaSayisi = _context.Faturalar.Count();
+            // 1. Ýstatistikleri Veritabanýndan Hesaplýyoruz
+            var toplamFatura = await _context.Faturalar.CountAsync();
+            var toplamOdendi = await _context.Faturalar.Where(f => f.Durum == true).SumAsync(f => f.Tutar);
+            var toplamOdenmedi = await _context.Faturalar.Where(f => f.Durum == false).SumAsync(f => f.Tutar);
 
-            ViewBag.ToplamSirketSayisi = _context.Sirketler.Count();
-
-            ViewBag.ToplamOdenen = _context.Faturalar
-                .Where(f => f.Durum == true)
-                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
-
-            ViewBag.ToplamBekleyen = _context.Faturalar
-                .Where(f => f.Durum == false)
-                .Sum(f => (decimal?)f.ToplamTutar) ?? 0;
+            // 2. Hesaplanan verileri arayüze (View) taþýyoruz
+            ViewBag.ToplamFatura = toplamFatura;
+            ViewBag.ToplamOdendi = toplamOdendi;
+            ViewBag.ToplamOdenmedi = toplamOdenmedi;
 
             return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

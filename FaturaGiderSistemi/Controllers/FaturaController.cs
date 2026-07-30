@@ -143,7 +143,7 @@ namespace FaturaMasrafSistemi.Controllers
             }
         }
 
-        // --- 23. GÜN: PDF'E AKTARMA (QuestPDF) ---
+        
         [HttpGet]
         public async Task<IActionResult> FaturaPdfIndir(int id)
         {
