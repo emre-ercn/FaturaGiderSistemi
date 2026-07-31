@@ -4,16 +4,28 @@
     ViewData["Title"] = "Şirketler";
 }
 
-<div class="d-flex justify-content-between mt-4">
+<div class="d-flex justify-content-between mt-4 mb-3">
     <h2>Şirket Listesi</h2>
-    <a asp-action="Create" class="btn btn-primary">+ Yeni Şirket Ekle</a>
+    <div>
+        <!-- 1. EXCEL BUTONU EKLENDİ (PDF butonu da varsa buraya ekleyebilirsin) -->
+        <a asp-action="ExportExcel" class="btn btn-success me-2">Excel İndir</a>
+        <a asp-action="Create" class="btn btn-primary">+ Yeni Şirket Ekle</a>
+    </div>
 </div>
+
+<!-- Arama Çubuğu (Daha önce eklediğimiz gibi duruyor) -->
+<form asp-action="Index" method="get" class="d-flex mb-3" style="max-width: 500px;">
+    <input type="text" name="searchString" class="form-control me-2" placeholder="Şirket adı ara..." />
+    <button type="submit" class="btn btn-primary">Ara</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Temizle</a>
+</form>
 
 <table class="table table-striped mt-3">
     <thead>
         <tr>
             <th>Şirket Adı</th>
             <th>Vergi No</th>
+            <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
@@ -22,7 +34,40 @@
             <tr>
                 <td class="fw-bold">@item.Ad</td>
                 <td>@item.VergiNo</td>
+                <td>
+                    <!-- 2. SİLME FORMU GÜNCELLENDİ (SweetAlert ile yakalamak için class eklendi) -->
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;" class="delete-form">
+                        <button type="button" class="btn btn-sm btn-danger delete-btn">Sil</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- 3. SWEETALERT2 KÜTÜPHANESİ VE JAVASCRIPT KODU EKLENDİ -->
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('.delete-form');
+
+                Swal.fire({
+                    title: 'Emin misin?',
+                    text: "Bu şirketi silmek istediğine emin misin? Bu işlem geri alınamaz!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Evet, Sil!',
+                    cancelButtonText: 'İptal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Sadece onay verilirse form tetiklenir
+                    }
+                });
+            });
+        });
+    </script>
+}

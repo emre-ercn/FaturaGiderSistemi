@@ -16,14 +16,20 @@ namespace FaturaGiderSistemi.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        // Index metoduna arama kelimesini yakalaması için "searchString" parametresi ekliyoruz
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Sirketler.ToListAsync());
-        }
+            // 1. Veritabanındaki tüm şirketleri sorgulanabilir halde alıyoruz
+            var sirketler = from s in _context.Sirketler select s;
 
-        public IActionResult Create()
-        {
-            return View();
+            // 2. Eğer kullanıcı arama kutusuna bir şey yazmışsa (boş değilse) filtreleme yapıyoruz
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                sirketler = sirketler.Where(s => s.Ad.Contains(searchString));
+            }
+
+            // 3. Filtrelenmiş (veya arama yapılmamışsa tüm) listeyi sayfaya gönderiyoruz
+            return View(await sirketler.ToListAsync());
         }
 
         [HttpPost]

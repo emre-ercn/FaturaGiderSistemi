@@ -1,0 +1,25 @@
+﻿@model FaturaGiderSistemi.Models.Sirket
+
+@{
+    ViewData["Title"] = "Yeni Şirket Ekle";
+}
+
+<h2>Yeni Şirket Ekle</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group mb-3">
+                <label class="fw-bold mb-1">Şirket Adı</label>
+                <input asp-for="Ad" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="fw-bold mb-1">Vergi Numarası</label>
+                <input asp-for="VergiNo" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-success">Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+        </form>
+    </div>
+</div>

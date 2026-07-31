@@ -56,6 +56,30 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Kullanicilar/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpbGFyXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Kullanicilar/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpbGFyXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Kullanicilar/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpbGFyXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Kullanicilar/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpbGFyXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Kullanicilar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpbGFyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Kullanicilar/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpbGFyXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Kullanici/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -90,6 +114,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Sirketler/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2lya2V0bGVyXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Sirketler/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2lya2V0bGVyXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Sirketler/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2lya2V0bGVyXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Sirketler/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2lya2V0bGVyXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Sirketler/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2lya2V0bGVyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/EMRE ERCAN/Desktop/FaturaGiderSistemi/FaturaGiderSistemi/FaturaGiderSistemi/Views/Sirket/Create.cshtml]
