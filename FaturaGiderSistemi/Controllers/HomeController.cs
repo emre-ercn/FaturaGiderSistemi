@@ -22,6 +22,8 @@ namespace FaturaGiderSistemi.Controllers
         {
             // 1. Ýstatistikleri Veritabanýndan Hesaplýyoruz
             var toplamFatura = await _context.Faturalar.CountAsync();
+            var toplamSirket = await _context.Sirketler.CountAsync(); // Yeni eklendi: Þirket sayýsý
+
             var toplamOdendi = await _context.Faturalar.Where(f => f.Durum == true).SumAsync(f => f.Tutar);
             var toplamOdenmedi = await _context.Faturalar.Where(f => f.Durum == false).SumAsync(f => f.Tutar);
 
@@ -29,14 +31,23 @@ namespace FaturaGiderSistemi.Controllers
             var odenenAdet = await _context.Faturalar.CountAsync(f => f.Durum == true);
             var bekleyenAdet = await _context.Faturalar.CountAsync(f => f.Durum == false);
 
+            // YENÝ: Anasayfadaki tablo için Son 5 Ýþlemi çekiyoruz
+            var sonIslemler = await _context.Faturalar
+                .Include(f => f.Sirket)
+                .OrderByDescending(f => f.Id) // En son eklenen en üstte gelsin
+                .Take(5) // Sadece 5 tane alalým
+                .ToListAsync();
+
             // 2. Hesaplanan verileri arayüze (View) taþýyoruz
             ViewBag.ToplamFatura = toplamFatura;
+            ViewBag.ToplamSirket = toplamSirket;
             ViewBag.ToplamOdendi = toplamOdendi;
             ViewBag.ToplamOdenmedi = toplamOdenmedi;
             ViewBag.OdenenAdet = odenenAdet;
             ViewBag.BekleyenAdet = bekleyenAdet;
 
-            return View();
+            // Son 5 faturayý modele gönderiyoruz
+            return View(sonIslemler);
         }
 
         public IActionResult Privacy()
