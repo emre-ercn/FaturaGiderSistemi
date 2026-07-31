@@ -55,9 +55,18 @@ namespace FaturaGiderSistemi.Controllers
             return View();
         }
 
+        // 30. GÜN EKLENTÝSÝ: 404 sayfasýný yakalayacak güncellenmiþ Error metodu
+        [Route("Home/Error/{statusCode}")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
+            if (statusCode == 404)
+            {
+                // 404 Hatasý için özel görünüm
+                return View("NotFound");
+            }
+
+            // Diðer genel hatalar için
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

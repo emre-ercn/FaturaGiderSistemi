@@ -32,6 +32,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// 30. GÜN EKLENTİSİ: 404 ve diğer durum kodları için özel sayfa yönlendirmesi
+app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
